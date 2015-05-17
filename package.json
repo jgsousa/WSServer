@@ -1,0 +1,24 @@
+{
+  "name": "WSServer",
+  "version": "0.1.0",
+  "description": "WebSocket GCM proxy",
+  "main": "app.js",
+  "dependencies": {
+    "basic-auth": "^1.0.1",
+    "body-parser": "^1.12.4",
+    "express": "^4.12.3",
+    "mongodb": "^2.0.31",
+    "monk": "^1.0.1",
+    "node-gcm": "^0.9.15",
+    "websocket": "^1.0.18"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "gcm"
+  ],
+  "author": "Joao Guilherme Sousa",
+  "license": "MIT"
+}
