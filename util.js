@@ -5,7 +5,7 @@ var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 
 // create reusable transporter object using SMTP transport
 var transporter = nodemailer.createTransport({
-    service: 'Yahoo',
+    service: 'Gmail',
     auth: {
         user: config.emailaccount,
         pass: config.emailpass
@@ -22,19 +22,17 @@ exports.generatePasscode = function () {
 };
 
 exports.sendMail = function(user) {
-    console.log("User:" + user.user);
-    console.log("Email:" + user.email);
-    console.log("Passcode:" + user.passcode);
+    var text = 'Para o utilizador ' + user.user + ' use o codigo ' + user.passcode + ' para activar a sua aplicacao.';
     transporter.sendMail({
-        from: 'jgsousa81@yahoo.com',
-        to: 'asousa.joao@gmail.com',
-        subject: 'Olá',
-        text: 'Teste de envio de password para mobilidade.'
+        from: config.emailaccount,
+        to: user.email,
+        subject: 'Activacao de aplicacao',
+        text: text
     }, function (error, response) {
         if (error) {
             console.log(error);
         } else {
-            console.log("Message sent: " + response.message);
+            console.log("Message sent to user " + user.user);
         }
     });
 };
