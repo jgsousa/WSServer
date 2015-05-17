@@ -6,6 +6,7 @@ var express    = require('express');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 var auth = require('basic-auth');
+var util = require('./util.js');
 
 
 var client = new WebSocketClient();
@@ -105,19 +106,23 @@ app.post('/adduser', isAdminUser, function(sReq, sRes){
         sReq.res.end('User or email missing');
     }
     else{
-        var collection = db.get('mobileusers');
-        var query = { "username" : sReq.body.user };
-        collection.find(query,{},function(err,docs){
-            if(docs.length !== 0){
-                sReq.statusCode = "400";
-                sReq.res.end('User already exists');
+        var users = db.get('mobileusers');
+        var query = { "user" : sReq.body.user };
+
+        users.find(query,{},function(err,docs){
+            if(docs.length != 0){
+                console.log("O user ja existe:" + JSON.stringify(docs[0]));
+
             }
             else{
-                var newuser = { "user" : sReq.body.user, "email" : sReq.body.email };
-                collection.insert(newuser);
-                sReq.send("Ok");
+                var passcode = util.generatePasscode();
+                var newuser = { "user" : sReq.body.user, "email" : sReq.body.email ,
+                    "passcode" : passcode };
+                users.insert(newuser);
+                util.sendMail(newuser);
             }
         });
+        sRes.send("Ok");
     }
 });
 

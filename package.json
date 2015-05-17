@@ -10,6 +10,7 @@
     "mongodb": "^2.0.31",
     "monk": "^1.0.1",
     "node-gcm": "^0.9.15",
+    "nodemailer": "^1.3.4",
     "websocket": "^1.0.18"
   },
   "devDependencies": {},
